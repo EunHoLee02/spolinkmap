@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스포츠 체육시설 검색</title>
+    <style>
+        /* Reset 및 기본 스타일 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nanum Gothic', sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* 헤더 */
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* 메인 컨테이너 */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-section input {
+            padding: 1rem;
+            font-size: 1rem;
+            width: 60%;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-section input:focus {
+            border-color: #007bff;
+        }
+
+        .search-section button {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-section button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 결과 테이블 */
+        .result-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .result-section table th,
+        .result-section table td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .result-section table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .result-section table tr:nth-child(even) {
+            background-color: #f4f4f4;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .search-section input {
+                width: 90%;
+            }
+
+            .search-section button {
+                width: 90%;
+                margin: 1rem 0 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>스포츠 체육시설 및 강좌 검색</h1>
+        <p>원하는 지역의 체육시설과 강좌를 한눈에 확인하세요</p>
+    </header>
+    <div class="container">
+        <div class="search-section">
+            <input type="text" id="searchInput" placeholder="예: 서울, 부산">
+            <button onclick="searchFacilities()">검색</button>
+        </div>
+        <div class="result-section">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>지역</th>
+                        <th>시설명</th>
+                        <th>강좌명</th>
+                        <th>강좌 수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 검색 결과가 여기에 추가됩니다 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        // JavaScript: 데이터와 검색 로직
+        const facilitiesData = [
+            { region: '서울', facility: '헬스장 A', program: '요가 클래스', count: 10 },
+            { region: '부산', facility: '헬스장 B', program: '필라테스', count: 7 },
+            { region: '대구', facility: '헬스장 C', program: '헬스 트레이닝', count: 12 },
+            { region: '광주', facility: '헬스장 D', program: '에어로빅', count: 5 },
+            { region: '대전', facility: '헬스장 E', program: '스피닝', count: 8 }
+        ];
+
+        function searchFacilities() {
+            const input = document.getElementById('searchInput').value.trim();
+            const resultsTable = document.getElementById('resultsTable').getElementsByTagName('tbody')[0];
+            resultsTable.innerHTML = ''; // 기존 검색 결과 초기화
+
+            const filteredData = facilitiesData.filter(item =>
+                item.region.includes(input)
+            );
+
+            if (filteredData.length === 0) {
+                const row = resultsTable.insertRow();
+                const cell = row.insertCell(0);
+                cell.colSpan = 4;
+                cell.textContent = '검색 결과가 없습니다.';
+                cell.style.textAlign = 'center';
+            } else {
+                filteredData.forEach(item => {
+                    const row = resultsTable.insertRow();
+                    row.insertCell(0).textContent = item.region;
+                    row.insertCell(1).textContent = item.facility;
+                    row.insertCell(2).textContent = item.program;
+                    row.insertCell(3).textContent = item.count;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
